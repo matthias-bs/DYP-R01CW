@@ -102,7 +102,7 @@ DYP_R01CW(uint8_t addr = DYP_R01CW_DEFAULT_ADDR)
 
 Creates a new DYP_R01CW sensor object.
 
-- `addr`: I2C address of the sensor (default: 0x50)
+- `addr`: I2C address of the sensor (default: 0xE0)
 
 ### Methods
 
