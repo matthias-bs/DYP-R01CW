@@ -175,9 +175,13 @@ bool DYP_R01CW::setAddress(uint8_t newAddr) {
     }
     
     // Validate the new address
-    // Valid addresses are 0xD0, 0xD2, 0xD4, ..., 0xFE (20 addresses)
-    // These are even addresses from 0xD0 to 0xFE
+    // Valid addresses are 0xD0, 0xD2, ..., 0xEE, 0xF8, 0xFA, 0xFC, 0xFE (20 addresses)
+    // These are even addresses from 0xD0 to 0xFE, excluding 0xF0-0xF6
     if (newAddr < 0xD0 || newAddr > 0xFE || (newAddr & 0x01) != 0) {
+        return false;
+    }
+    // Exclude reserved addresses 0xF0, 0xF2, 0xF4, 0xF6
+    if (newAddr >= 0xF0 && newAddr <= 0xF6) {
         return false;
     }
     
@@ -191,6 +195,8 @@ bool DYP_R01CW::setAddress(uint8_t newAddr) {
         return false;
     }
     
-    // Address change successful
+    // Address change successful: update internal 7-bit address
+    _addr = newAddr >> 1;
+    
     return true;
 }

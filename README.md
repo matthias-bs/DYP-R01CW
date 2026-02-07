@@ -61,7 +61,7 @@ Connect the DYP-R01CW sensor to your Arduino board:
 #include <Wire.h>
 #include <DYP_R01CW.h>
 
-// Create sensor object with default I2C address (0x50)
+// Create sensor object with default I2C address (0x70, which is 0xE0 in 8-bit format)
 DYP_R01CW sensor;
 
 void setup() {
@@ -155,22 +155,25 @@ bool setAddress(uint8_t newAddr)
 
 Sets the I2C address of the sensor by writing to the slave address register (0x05).
 
-- `newAddr`: New I2C address in 8-bit format - must be one of the 20 supported addresses: 0xD0, 0xD2, 0xD4, ..., 0xFE (even addresses only)
+- `newAddr`: New I2C address in 8-bit format - must be one of the 20 supported addresses
+- **Supported addresses (8-bit):** 0xD0, 0xD2, 0xD4, 0xD6, 0xD8, 0xDA, 0xDC, 0xDE, 0xE0, 0xE2, 0xE4, 0xE6, 0xE8, 0xEA, 0xEC, 0xEE, 0xF8, 0xFA, 0xFC, 0xFE
+  - Even addresses from 0xD0-0xFE, excluding reserved range 0xF0-0xF6
 - Returns: `true` if address was set successfully, `false` otherwise
-- **Important:** The `newAddr` parameter uses 8-bit I2C address format (includes R/W bit), but when creating a sensor object, use 7-bit format (shift right by 1)
-- **Note:** According to sensor documentation, the default 8-bit address is 0xE0 (7-bit: 0x70). However, some sensor variants may ship with different factory addresses.
-- **Note:** The new address takes effect immediately. After calling this method, you must create a new sensor object with the corresponding 7-bit address
+- **Important:** The `newAddr` parameter uses 8-bit I2C address format (includes R/W bit)
+- **Note:** The sensor's default 8-bit address is 0xE0 (7-bit: 0x70), which is now the library default
+- **Note:** The new address takes effect immediately and the object's internal address is updated automatically. You can continue using the same sensor object without creating a new one.
 
 **Example:**
 
 ```cpp
-// Change sensor address from 0x50 (7-bit) to 0xD4 (8-bit)
-// Note: 0xD4 is the 8-bit address format, 7-bit equivalent is 0x6A
+// Change sensor address from default 0x70 (7-bit) to 0xD4 (8-bit = 0x6A in 7-bit)
+DYP_R01CW sensor;  // Uses default address 0x70
+sensor.begin();
+
 if (sensor.setAddress(0xD4)) {
   Serial.println("Address changed successfully!");
-  // Create new sensor object with 7-bit address (0xD4 >> 1 = 0x6A)
-  DYP_R01CW newSensor(0x6A);
-  newSensor.begin();
+  // No need to create a new object - the same object now uses the new address
+  int16_t distance = sensor.readDistance();  // Works with new address
 } else {
   Serial.println("Failed to change address");
 }
