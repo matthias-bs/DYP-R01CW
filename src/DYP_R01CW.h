@@ -79,7 +79,8 @@ public:
      *       you must create a new sensor object with the corresponding 7-bit address
      *       to communicate with the sensor.
      * @note Only even 8-bit addresses from 0xD0 to 0xFE are valid (20 addresses total)
-     * @note The sensor's default 8-bit address is 0xE0 (7-bit: 0x70)
+     * @note According to sensor documentation, the default 8-bit address is 0xE0 (7-bit: 0x70).
+     *       However, some sensor variants may ship with different addresses (e.g., 0x50).
      * @note To convert: 7-bit address = 8-bit address >> 1, or 8-bit address = 7-bit address << 1
      */
     bool setAddress(uint8_t newAddr);

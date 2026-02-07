@@ -36,7 +36,9 @@
 #include <DYP_R01CW.h>
 
 // Current I2C address (change this to match your sensor's current 7-bit address)
-// Note: The library uses 7-bit addresses. Default is 0x50.
+// Note: The library default is 0x50. However, according to sensor documentation,
+// the sensor's factory default 8-bit address is 0xE0 (7-bit: 0x70).
+// Your sensor may be at a different address depending on its variant or previous configuration.
 #define CURRENT_ADDRESS 0x50
 
 // New I2C address to set (must be in 8-bit format: 0xD0, 0xD2, 0xD4, ..., 0xFE)

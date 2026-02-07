@@ -158,7 +158,7 @@ Sets the I2C address of the sensor by writing to the slave address register (0x0
 - `newAddr`: New I2C address in 8-bit format - must be one of the 20 supported addresses: 0xD0, 0xD2, 0xD4, ..., 0xFE (even addresses only)
 - Returns: `true` if address was set successfully, `false` otherwise
 - **Important:** The `newAddr` parameter uses 8-bit I2C address format (includes R/W bit), but when creating a sensor object, use 7-bit format (shift right by 1)
-- **Note:** The sensor's default 8-bit address is 0xE0, which corresponds to 7-bit address 0x70
+- **Note:** According to sensor documentation, the default 8-bit address is 0xE0 (7-bit: 0x70). However, some sensor variants may ship with different factory addresses.
 - **Note:** The new address takes effect immediately. After calling this method, you must create a new sensor object with the corresponding 7-bit address
 
 **Example:**
