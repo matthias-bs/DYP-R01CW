@@ -58,9 +58,9 @@ jobs:
         run:
           |
           # common settings - no extra options, skip nothing, all warnings
-          echo "options=''" >> $GITHUB_OUTPUT
-          echo "skip-pattern=''" >> $GITHUB_OUTPUT
-          echo "warnings='all'" >> $GITHUB_OUTPUT
+          echo "options=" >> $GITHUB_OUTPUT
+          echo "skip-pattern=" >> $GITHUB_OUTPUT
+          echo "warnings=all" >> $GITHUB_OUTPUT
           
           # platform-dependent settings - extra board options, board index URLs, skip patterns etc.
           if [[ "${{ contains(matrix.board, 'esp32:esp32') }}" == "true" ]]; then
