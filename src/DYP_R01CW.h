@@ -24,6 +24,7 @@
 #include <Wire.h>
 
 // Default I2C address for DYP-R01CW sensor (8-bit format)
+// Note: This is the library default; adjust if your sensor is configured differently
 #define DYP_R01CW_DEFAULT_ADDR 0xE8
 
 // Sensor registers
