@@ -17,6 +17,8 @@ readDistance	KEYWORD2
 isConnected	KEYWORD2
 readSoftwareVersion	KEYWORD2
 setAddress	KEYWORD2
+setDistanceOffset	KEYWORD2
+getDistanceOffset	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

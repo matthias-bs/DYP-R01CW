@@ -179,6 +179,57 @@ if (sensor.setAddress(0xD4)) {
 }
 ```
 
+#### setDistanceOffset()
+
+```cpp
+void setDistanceOffset(int16_t offset)
+```
+
+Sets the distance offset to be applied to all distance readings.
+
+- `offset`: Offset in millimeters to add to distance readings (can be positive or negative)
+- **Note:** The default offset is 0 mm
+- **Use case:** Calibrate the sensor or compensate for mounting distance
+
+**Example:**
+
+```cpp
+DYP_R01CW sensor;
+sensor.begin();
+
+// Apply a positive offset (sensor reads 10mm shorter than actual)
+sensor.setDistanceOffset(10);
+
+// Apply a negative offset (sensor reads 5mm longer than actual)
+sensor.setDistanceOffset(-5);
+
+// Reset to no offset
+sensor.setDistanceOffset(0);
+```
+
+#### getDistanceOffset()
+
+```cpp
+int16_t getDistanceOffset()
+```
+
+Gets the current distance offset.
+
+- Returns: Current offset in millimeters
+
+**Example:**
+
+```cpp
+DYP_R01CW sensor;
+sensor.begin();
+
+sensor.setDistanceOffset(10);
+int16_t currentOffset = sensor.getDistanceOffset();  // Returns 10
+Serial.print("Current offset: ");
+Serial.print(currentOffset);
+Serial.println(" mm");
+```
+
 ## Related Resources
 
 - **[DYP-R01CW Product Page](https://www.dypcn.com/small-size-waterproof-laser-sensor-dyp-r01-product/)** - Official product page from DYP with technical specifications and product details

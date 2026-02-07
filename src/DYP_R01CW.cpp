@@ -22,6 +22,7 @@ DYP_R01CW::DYP_R01CW(uint8_t addr) {
     // Convert 8-bit address to 7-bit format for Wire library
     _addr = addr >> 1;
     _wire = nullptr;
+    _distanceOffset = 0;  // Default offset is 0
 }
 
 /*!
@@ -109,8 +110,7 @@ int16_t DYP_R01CW::readDistance() {
     }
     
     // Apply offset and return distance in millimeters
-    // +10mm offset is required by the sensor hardware/firmware
-    int16_t distance = rawDistance + 10;
+    int16_t distance = rawDistance + _distanceOffset;
     
     return distance;
 }
@@ -200,4 +200,20 @@ bool DYP_R01CW::setAddress(uint8_t newAddr) {
     _addr = newAddr >> 1;
     
     return true;
+}
+
+/*!
+ * @brief Set the distance offset
+ * @param offset Offset in millimeters to add to distance readings (can be positive or negative)
+ */
+void DYP_R01CW::setDistanceOffset(int16_t offset) {
+    _distanceOffset = offset;
+}
+
+/*!
+ * @brief Get the current distance offset
+ * @return Current offset in millimeters
+ */
+int16_t DYP_R01CW::getDistanceOffset() {
+    return _distanceOffset;
 }

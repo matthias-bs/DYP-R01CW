@@ -86,9 +86,22 @@ public:
      */
     bool setAddress(uint8_t newAddr);
 
+    /*!
+     * @brief Set the distance offset
+     * @param offset Offset in millimeters to add to distance readings (can be positive or negative)
+     */
+    void setDistanceOffset(int16_t offset);
+
+    /*!
+     * @brief Get the current distance offset
+     * @return Current offset in millimeters
+     */
+    int16_t getDistanceOffset();
+
 private:
-    uint8_t _addr;        ///< I2C address of the sensor
-    TwoWire *_wire;       ///< Pointer to Wire object
+    uint8_t _addr;         ///< I2C address of the sensor
+    TwoWire *_wire;        ///< Pointer to Wire object
+    int16_t _distanceOffset; ///< Distance offset in millimeters
 };
 
 #endif // DYP_R01CW_H
