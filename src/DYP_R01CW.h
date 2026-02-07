@@ -98,6 +98,13 @@ public:
      */
     int16_t getDistanceOffset();
 
+    /*!
+     * @brief Restart the sensor
+     * @return true if restart command was sent successfully, false otherwise
+     * @note Sends restart command by writing 0x5A followed by 0xA5 to the command register
+     */
+    bool restart();
+
 private:
     uint8_t _addr;         ///< I2C address of the sensor
     TwoWire *_wire;        ///< Pointer to Wire object
