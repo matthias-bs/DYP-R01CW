@@ -1,0 +1,23 @@
+#######################################
+# Syntax Coloring Map For DYP_R01CW
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DYP_R01CW	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+readDistance	KEYWORD2
+isConnected	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+DYP_R01CW_DEFAULT_ADDR	LITERAL1
