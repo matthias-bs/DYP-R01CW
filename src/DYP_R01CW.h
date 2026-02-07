@@ -66,9 +66,9 @@ public:
     
     /*!
      * @brief Read software version number from the sensor
-     * @return Software version number, or 0 if read failed
+     * @return Software version number (16-bit), or 0 if read failed
      */
-    uint8_t readSoftwareVersion();
+    uint16_t readSoftwareVersion();
 
 private:
     uint8_t _addr;        ///< I2C address of the sensor

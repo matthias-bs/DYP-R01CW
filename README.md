@@ -130,12 +130,12 @@ Checks if sensor is connected and responding.
 #### readSoftwareVersion()
 
 ```cpp
-uint8_t readSoftwareVersion()
+uint16_t readSoftwareVersion()
 ```
 
 Reads the software version number from the sensor.
 
-- Returns: Software version number (as a single byte), or 0 if read failed
+- Returns: Software version number as a 16-bit value (two bytes from register 0x00), or 0 if read failed
 
 ## Related Resources
 

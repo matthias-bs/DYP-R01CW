@@ -53,7 +53,7 @@ void setup() {
   Serial.println("DYP-R01CW sensor initialized successfully!");
   
   // Read and display software version
-  uint8_t version = sensor.readSoftwareVersion();
+  uint16_t version = sensor.readSoftwareVersion();
   if (version != 0) {
     Serial.print("Software Version: 0x");
     Serial.println(version, HEX);
