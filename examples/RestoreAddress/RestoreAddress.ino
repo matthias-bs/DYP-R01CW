@@ -75,17 +75,15 @@ void setup() {
   
   // Initialize the sensor object (sets up the Wire interface)
   // Note: begin() will likely return false since the broadcast address won't respond to 
-  // read requests, but it still initializes the Wire interface needed for setAddress()
-  if (broadcastSensor.begin()) {
-    Serial.println("INFO: Broadcast sensor initialized (unexpected but acceptable).");
-  } else {
-    Serial.println("INFO: Broadcast sensor begin() failed as expected.");
-    Serial.println("      (Broadcast address doesn't respond to reads)");
-  }
+  // read requests, but it initializes the Wire interface which is all we need for setAddress()
+  bool beginResult = broadcastSensor.begin();
+  Serial.print("INFO: Broadcast sensor begin() ");
+  Serial.println(beginResult ? "succeeded (unexpected but OK)" : "failed (expected - broadcast address doesn't respond to reads)");
   Serial.println();
   
   // Use the DYP_R01CW setAddress method to restore the sensor to default address
   // This sends the address change command via the broadcast address
+  // This works regardless of the begin() result above
   if (broadcastSensor.setAddress(DEFAULT_ADDRESS_8BIT)) {
     Serial.println("SUCCESS: Address restore command sent via broadcast address!");
     Serial.println();
