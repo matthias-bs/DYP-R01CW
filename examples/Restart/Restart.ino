@@ -4,8 +4,9 @@
  * @brief Example demonstrating how to restart the DYP-R01CW sensor
  * 
  * This sketch shows how to use the restart() method to restart the DYP-R01CW
- * laser ranging sensor. The restart command sends 0x5A followed by 0xA5 to
- * the command register, which resets the sensor to its initial state.
+ * laser ranging sensor. The restart command sends DYP_R01CW_RESTART_COMMAND_1
+ * followed by DYP_R01CW_RESTART_COMMAND_2 to the command register, which resets
+ * the sensor to its initial state.
  * 
  * This can be useful when:
  * - The sensor is not responding correctly

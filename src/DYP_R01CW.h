@@ -103,7 +103,7 @@ public:
     /*!
      * @brief Restart the sensor
      * @return true if restart command was sent successfully, false otherwise
-     * @note Sends restart command by writing 0x5A followed by 0xA5 to the command register
+     * @note Sends restart command sequence (DYP_R01CW_RESTART_COMMAND_1, DYP_R01CW_RESTART_COMMAND_2) to the command register
      */
     bool restart();
 
