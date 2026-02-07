@@ -59,7 +59,7 @@ jobs:
           |
           # common settings - no extra options, skip nothing, all warnings
           echo "options=" >> $GITHUB_OUTPUT
-          echo "skip-pattern=" >> $GITHUB_OUTPUT
+          echo "skip-pattern=^$" >> $GITHUB_OUTPUT
           echo "warnings=all" >> $GITHUB_OUTPUT
           
           # platform-dependent settings - extra board options, board index URLs, skip patterns etc.
@@ -97,10 +97,9 @@ jobs:
           for example in $(find $PWD/examples -name '*.ino' | sort); do
             # check whether to skip this sketch
             skip=false
-            if [ -n "${{ steps.prep.outputs.skip-pattern }}" ]; then
-              if [[ ${example} =~ ${{ steps.prep.outputs.skip-pattern }} ]]; then
-                skip=true
-              fi
+            skip_pattern="${{ steps.prep.outputs.skip-pattern != '' && steps.prep.outputs.skip-pattern || '^$' }}"
+            if [[ ${example} =~ $skip_pattern ]]; then
+              skip=true
             fi
 
             if [ "$skip" = "true" ]; then
