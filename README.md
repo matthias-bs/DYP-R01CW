@@ -147,6 +147,33 @@ Reads the software version number from the sensor.
 
 - Returns: Software version number as a 16-bit value (two bytes from register 0x00), or 0 if read failed
 
+#### setAddress()
+
+```cpp
+bool setAddress(uint8_t newAddr)
+```
+
+Sets the I2C address of the sensor by writing to the slave address register (0x05).
+
+- `newAddr`: New I2C address - must be one of the 20 supported addresses: 0xD0, 0xD2, 0xD4, ..., 0xFE (even addresses only)
+- Returns: `true` if address was set successfully, `false` otherwise
+- **Note:** The new address takes effect immediately. After calling this method, you must create a new sensor object with the new address to communicate with the sensor.
+- **Note:** Default address is 0xE0
+
+**Example:**
+
+```cpp
+// Change sensor address from default (0x50) to 0xE0
+if (sensor.setAddress(0xE0)) {
+  Serial.println("Address changed successfully!");
+  // Now create a new sensor object with the new address
+  DYP_R01CW newSensor(0xE0);
+  newSensor.begin();
+} else {
+  Serial.println("Failed to change address");
+}
+```
+
 ## Related Resources
 
 - **[DYP-R01CW Product Page](https://www.dypcn.com/small-size-waterproof-laser-sensor-dyp-r01-product/)** - Official product page from DYP with technical specifications and product details
