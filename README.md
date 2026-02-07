@@ -48,7 +48,7 @@ Connect the DYP-R01CW sensor to your Arduino board:
 
 | Sensor Pin | Arduino Pin |
 |------------|-------------|
-| VCC        | 5V (or 3.3V depending on sensor version) |
+| VCC        | Supply voltage (3.3V - 5.0V) |
 | GND        | GND         |
 | SDA        | SDA (A4 on Uno, 20 on Mega) |
 | SCL        | SCL (A5 on Uno, 21 on Mega) |
