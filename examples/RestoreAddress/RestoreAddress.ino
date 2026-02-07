@@ -44,8 +44,8 @@
 #include <DYP_R01CW.h>
 
 // I2C broadcast address (general call address)
-// Note: 0x00 is the universal broadcast address in I2C
-#define BROADCAST_ADDR_8BIT 0x00
+// Note: 0x00 is the universal broadcast address in I2C (7-bit address format)
+#define BROADCAST_ADDR 0x00
 
 // Default address to restore to (8-bit format)
 #define DEFAULT_ADDRESS_8BIT 0xE8
@@ -71,12 +71,18 @@ void setup() {
   
   // Create a sensor object using the broadcast address
   // The broadcast address allows communication with any sensor regardless of its current address
-  DYP_R01CW broadcastSensor(BROADCAST_ADDR_8BIT);
+  DYP_R01CW broadcastSensor(BROADCAST_ADDR << 1); // Convert 7-bit to 8-bit format for constructor
   
   // Initialize the sensor object (sets up the Wire interface)
-  // Note: begin() will likely fail since the broadcast address won't respond to read requests,
-  // but it still initializes the Wire interface which is needed for setAddress() to work
-  broadcastSensor.begin();
+  // Note: begin() will likely return false since the broadcast address won't respond to 
+  // read requests, but it still initializes the Wire interface needed for setAddress()
+  if (broadcastSensor.begin()) {
+    Serial.println("INFO: Broadcast sensor initialized (unexpected but acceptable).");
+  } else {
+    Serial.println("INFO: Broadcast sensor begin() failed as expected.");
+    Serial.println("      (Broadcast address doesn't respond to reads)");
+  }
+  Serial.println();
   
   // Use the DYP_R01CW setAddress method to restore the sensor to default address
   // This sends the address change command via the broadcast address
