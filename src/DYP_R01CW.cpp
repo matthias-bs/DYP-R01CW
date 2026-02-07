@@ -76,7 +76,7 @@ int16_t DYP_R01CW::readDistance() {
         return -1;
     }
     
-    // Wait for measurement to complete
+    // Wait for measurement to complete (sensor requires ~50ms)
     delay(50);
     
     // Set pointer to data register
@@ -108,6 +108,7 @@ int16_t DYP_R01CW::readDistance() {
     }
     
     // Apply offset and return distance in millimeters
+    // +10mm offset is required by the sensor hardware/firmware
     int16_t distance = rawDistance + 10;
     
     return distance;
