@@ -26,6 +26,13 @@
 // Default I2C address for DYP-R01CW sensor
 #define DYP_R01CW_DEFAULT_ADDR 0x50
 
+// Sensor registers
+#define DYP_R01CW_COMMAND_REG 0x10
+#define DYP_R01CW_DATA_REG 0x02
+
+// Commands
+#define DYP_R01CW_MEASURE_COMMAND 0xB0
+
 /*!
  * @brief DYP_R01CW class for interfacing with the laser ranging sensor
  */
