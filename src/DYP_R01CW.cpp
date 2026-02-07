@@ -128,3 +128,38 @@ bool DYP_R01CW::isConnected() {
     
     return (error == 0);
 }
+
+/*!
+ * @brief Read software version number from the sensor
+ * @return Software version number (16-bit), or 0 if read failed
+ */
+uint16_t DYP_R01CW::readSoftwareVersion() {
+    if (_wire == nullptr) {
+        return 0;
+    }
+    
+    // Set pointer to version register
+    _wire->beginTransmission(_addr);
+    _wire->write(DYP_R01CW_VERSION_REG);
+    uint8_t error = _wire->endTransmission();
+    
+    if (error != 0) {
+        return 0;
+    }
+    
+    // Request 2 bytes from version register
+    uint8_t bytesReceived = _wire->requestFrom(_addr, (uint8_t)2);
+    
+    if (bytesReceived != 2) {
+        return 0;
+    }
+    
+    // Read high and low bytes
+    uint8_t highByte = _wire->read();
+    uint8_t lowByte = _wire->read();
+    
+    // Combine bytes to form version number
+    uint16_t version = (highByte << 8) | lowByte;
+    
+    return version;
+}
