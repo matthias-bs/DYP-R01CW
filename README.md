@@ -127,6 +127,12 @@ Checks if sensor is connected and responding.
 
 - Returns: `true` if sensor is connected, `false` otherwise
 
+## Related Resources
+
+- **[DYP-R01CW Product Page](https://www.dypcn.com/small-size-waterproof-laser-sensor-dyp-r01-product/)** - Official product page from DYP with technical specifications and product details
+- **[DFRobot SEN0590 Wiki](https://wiki.dfrobot.com/Laser_Ranging_Sensor_4m_SKU_SEN0590)** - DFRobot's wiki documentation for the SEN0590 laser ranging sensor (compatible module)
+- **[ESPHome Integration](https://github.com/sredfern/sen0590_esphome)** - ESPHome custom component for the SEN0590/DYP-R01CW sensor by sredfern
+
 ## License
 
 MIT License - see LICENSE file for details
