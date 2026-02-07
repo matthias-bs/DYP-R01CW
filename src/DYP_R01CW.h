@@ -27,6 +27,7 @@
 #define DYP_R01CW_DEFAULT_ADDR 0x50
 
 // Sensor registers
+#define DYP_R01CW_VERSION_REG 0x00
 #define DYP_R01CW_COMMAND_REG 0x10
 #define DYP_R01CW_DATA_REG 0x02
 
@@ -62,6 +63,12 @@ public:
      * @return true if sensor is connected, false otherwise
      */
     bool isConnected();
+    
+    /*!
+     * @brief Read software version number from the sensor
+     * @return Software version number, or 0 if read failed
+     */
+    uint8_t readSoftwareVersion();
 
 private:
     uint8_t _addr;        ///< I2C address of the sensor

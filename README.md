@@ -127,6 +127,16 @@ Checks if sensor is connected and responding.
 
 - Returns: `true` if sensor is connected, `false` otherwise
 
+#### readSoftwareVersion()
+
+```cpp
+uint8_t readSoftwareVersion()
+```
+
+Reads the software version number from the sensor.
+
+- Returns: Software version number (as a single byte), or 0 if read failed
+
 ## Related Resources
 
 - **[DYP-R01CW Product Page](https://www.dypcn.com/small-size-waterproof-laser-sensor-dyp-r01-product/)** - Official product page from DYP with technical specifications and product details
