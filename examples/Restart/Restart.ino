@@ -125,6 +125,7 @@ void setup() {
   
   // Take a few distance readings after restart
   Serial.println("Taking distance readings after restart:");
+  bool allReadingsFailed = true;
   for (int i = 0; i < 3; i++) {
     int16_t distance = sensor.readDistance();
     if (distance >= 0) {
@@ -133,6 +134,7 @@ void setup() {
       Serial.print(": ");
       Serial.print(distance);
       Serial.println(" mm");
+      allReadingsFailed = false;
     } else {
       Serial.print("  Reading ");
       Serial.print(i + 1);
@@ -143,7 +145,10 @@ void setup() {
   Serial.println();
   
   Serial.println("Example complete!");
-  Serial.println("The sensor has been restarted and is functioning normally.");
+  if (allReadingsFailed) {
+    Serial.println("WARNING: All distance readings failed after restart");
+  } else {
+    Serial.println("The sensor has been restarted and is functioning normally.");
 }
 
 void loop() {
