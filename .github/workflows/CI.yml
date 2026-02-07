@@ -26,7 +26,6 @@ jobs:
           - esp8266:esp8266:generic:dbg=Disabled
           - esp8266:esp8266:generic:dbg=Serial
           - rp2040:rp2040:adafruit_feather:dbgport=Serial
-          
 
 
     runs-on: ubuntu-latest
@@ -70,7 +69,7 @@ jobs:
           elif [[ "${{ contains(matrix.board, 'esp8266:esp8266') }}" == "true" ]]; then
             # ESP8266
             echo "options=,xtal=80,ResetMethod=ck,CrystalFreq=26,FlashFreq=40,FlashMode=qio,eesz=512K" >> $GITHUB_OUTPUT
-            echo "index-url=--additional-urls http://arduino.esp8266.com/stable/package_esp8266com_index.json" >> $GITHUB_OUTPUT
+            echo "index-url=--additional-urls https://arduino.esp8266.com/stable/package_esp8266com_index.json" >> $GITHUB_OUTPUT
           
           elif [[ "${{ contains(matrix.board, 'rp2040:rp2040') }}" == "true" ]]; then
             # RP2040
@@ -95,7 +94,7 @@ jobs:
           |
           for example in $(find $PWD/examples -name '*.ino' | sort); do
             # check whether to skip this sketch
-            if [ ! -z '${{ steps.prep.outputs.skip-pattern }}' ] && [[ ${example} =~ ${{ steps.prep.outputs.skip-pattern }} ]]; then
+            if [ -n "${{ steps.prep.outputs.skip-pattern }}" ] && [[ ${example} =~ ${{ steps.prep.outputs.skip-pattern }} ]]; then
               # skip sketch
               echo -e "\n\033[1;33mSkipped ${example##*/} (matched with ${{ steps.prep.outputs.skip-pattern }})\033[0m";
             else
