@@ -154,8 +154,6 @@ uint8_t DYP_R01CW::readSoftwareVersion() {
         return 0;
     }
     
-    // Read version byte
-    uint8_t version = _wire->read();
-    
-    return version;
+    // Read and return version byte
+    return _wire->read();
 }
