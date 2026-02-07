@@ -43,14 +43,11 @@
 #include <Wire.h>
 #include <DYP_R01CW.h>
 
-// I2C broadcast address (general call address) - 7-bit format
-#define BROADCAST_ADDR 0x00
+// I2C broadcast address (general call address) - 8-bit format
+#define BROADCAST_ADDR_8BIT 0x00
 
 // Default address to restore to (8-bit format)
 #define DEFAULT_ADDRESS_8BIT 0xE8
-
-// Register addresses
-#define SLAVE_ADDR_REG 0x05
 
 void setup() {
   // Initialize serial communication
@@ -67,29 +64,29 @@ void setup() {
   Serial.println("using the I2C broadcast address, regardless of current address.");
   Serial.println();
   
-  // Initialize I2C
-  Wire.begin();
-  
-  // Wait a moment for I2C to stabilize
-  delay(100);
-  
   Serial.println("Attempting to restore sensor address to default (0xE8)...");
   Serial.println("Using broadcast address (0x00) - works with any current address.");
   Serial.println();
   
-  // Use broadcast address to write the default address to the slave address register
-  // This will work regardless of the sensor's current address
-  Wire.beginTransmission(BROADCAST_ADDR);
-  Wire.write(SLAVE_ADDR_REG);
-  Wire.write(DEFAULT_ADDRESS_8BIT);
-  uint8_t error = Wire.endTransmission();
+  // Create a sensor object using the broadcast address
+  // The broadcast address allows communication with any sensor regardless of its current address
+  DYP_R01CW broadcastSensor(BROADCAST_ADDR_8BIT);
   
-  if (error == 0) {
+  // Initialize with broadcast address
+  if (!broadcastSensor.begin()) {
+    Serial.println("WARNING: Could not initialize with broadcast address.");
+    Serial.println("This is expected behavior for some I2C implementations.");
+    Serial.println("Continuing with address restoration attempt...");
+    Serial.println();
+  }
+  
+  // Use the DYP_R01CW setAddress method to restore the sensor to default address
+  // This sends the address change command via the broadcast address
+  if (broadcastSensor.setAddress(DEFAULT_ADDRESS_8BIT)) {
     Serial.println("SUCCESS: Address restore command sent via broadcast address!");
     Serial.println();
   } else {
-    Serial.print("WARNING: Broadcast transmission returned error code: ");
-    Serial.println(error);
+    Serial.println("WARNING: setAddress() returned false.");
     Serial.println("The sensor may still have been restored. Continuing verification...");
     Serial.println();
   }
