@@ -36,8 +36,25 @@ bool DYP_R01CW::begin(TwoWire *wire) {
         _wire->begin();
     }
     
-    // Check if sensor is connected
-    return isConnected();
+    // Check if sensor is connected by attempting to read from data register
+    _wire->beginTransmission(_addr);
+    _wire->write(DYP_R01CW_DATA_REG);
+    uint8_t error = _wire->endTransmission();
+    
+    if (error != 0) {
+        return false;
+    }
+    
+    // Try to read a byte to verify sensor is responding
+    uint8_t bytesReceived = _wire->requestFrom(_addr, (uint8_t)1);
+    if (bytesReceived != 1) {
+        return false;
+    }
+    
+    // Read and discard the byte
+    _wire->read();
+    
+    return true;
 }
 
 /*!
@@ -49,7 +66,29 @@ int16_t DYP_R01CW::readDistance() {
         return -1;
     }
     
-    // Request 2 bytes from sensor
+    // Send measurement command to command register
+    _wire->beginTransmission(_addr);
+    _wire->write(DYP_R01CW_COMMAND_REG);
+    _wire->write(DYP_R01CW_MEASURE_COMMAND);
+    uint8_t error = _wire->endTransmission();
+    
+    if (error != 0) {
+        return -1;
+    }
+    
+    // Wait for measurement to complete
+    delay(50);
+    
+    // Set pointer to data register
+    _wire->beginTransmission(_addr);
+    _wire->write(DYP_R01CW_DATA_REG);
+    error = _wire->endTransmission();
+    
+    if (error != 0) {
+        return -1;
+    }
+    
+    // Request 2 bytes from data register
     uint8_t bytesReceived = _wire->requestFrom(_addr, (uint8_t)2);
     
     if (bytesReceived != 2) {
@@ -61,7 +100,15 @@ int16_t DYP_R01CW::readDistance() {
     uint8_t lowByte = _wire->read();
     
     // Combine bytes to form distance value
-    int16_t distance = (highByte << 8) | lowByte;
+    uint16_t rawDistance = (highByte << 8) | lowByte;
+    
+    // Check for invalid data
+    if (rawDistance == 0xFFFF) {
+        return -1;
+    }
+    
+    // Apply offset and return distance in millimeters
+    int16_t distance = rawDistance + 10;
     
     return distance;
 }
