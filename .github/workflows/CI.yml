@@ -102,7 +102,7 @@ jobs:
                 skip=true
               fi
             fi
-            
+
             if [ "$skip" = "true" ]; then
               # skip sketch
               echo -e "\n\033[1;33mSkipped ${example##*/} (matched with ${{ steps.prep.outputs.skip-pattern }})\033[0m";
