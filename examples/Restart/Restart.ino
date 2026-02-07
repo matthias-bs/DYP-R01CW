@@ -39,7 +39,7 @@
 DYP_R01CW sensor;
 
 // Delay after restarting sensor (in milliseconds)
-#define SENSOR_RESTART_DELAY_MS 500
+#define SENSOR_RESTART_DELAY_MS 800
 
 void setup() {
   // Initialize serial communication
