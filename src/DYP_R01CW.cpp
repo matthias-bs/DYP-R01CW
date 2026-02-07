@@ -227,11 +227,11 @@ bool DYP_R01CW::restart() {
         return false;
     }
     
-    // Send restart command sequence: 0x5A followed by 0xA5 to command register
+    // Send restart command sequence to command register
     _wire->beginTransmission(_addr);
     _wire->write(DYP_R01CW_COMMAND_REG);
-    _wire->write(0x5A);
-    _wire->write(0xA5);
+    _wire->write(DYP_R01CW_RESTART_COMMAND_1);
+    _wire->write(DYP_R01CW_RESTART_COMMAND_2);
     uint8_t error = _wire->endTransmission();
     
     return (error == 0);

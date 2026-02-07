@@ -37,6 +37,9 @@
 // Create sensor object with default I2C address (0xE8 in 8-bit format)
 DYP_R01CW sensor;
 
+// Delay after restarting sensor (in milliseconds)
+#define SENSOR_RESTART_DELAY_MS 500
+
 void setup() {
   // Initialize serial communication
   Serial.begin(115200);
@@ -107,7 +110,7 @@ void setup() {
   
   // Wait for sensor to restart (give it some time)
   Serial.println("Waiting for sensor to restart...");
-  delay(500);
+  delay(SENSOR_RESTART_DELAY_MS);
   Serial.println();
   
   // Verify sensor is still connected after restart

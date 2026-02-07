@@ -35,6 +35,8 @@
 
 // Commands
 #define DYP_R01CW_MEASURE_COMMAND 0xB0
+#define DYP_R01CW_RESTART_COMMAND_1 0x5A
+#define DYP_R01CW_RESTART_COMMAND_2 0xA5
 
 /*!
  * @brief DYP_R01CW class for interfacing with the laser ranging sensor
