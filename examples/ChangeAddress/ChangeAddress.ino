@@ -121,11 +121,6 @@ void setup() {
     Serial.println("  2. Communication error with sensor");
     Serial.println("  3. Sensor does not support address change");
   }
-    Serial.println("Possible reasons:");
-    Serial.println("  1. Invalid address (must be 0xD0, 0xD2, 0xD4, ..., 0xFE)");
-    Serial.println("  2. Communication error with sensor");
-    Serial.println("  3. Sensor does not support address change");
-  }
   
   Serial.println();
   Serial.println("Example complete.");
