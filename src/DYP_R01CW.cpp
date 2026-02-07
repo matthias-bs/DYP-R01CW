@@ -163,3 +163,40 @@ uint16_t DYP_R01CW::readSoftwareVersion() {
     
     return version;
 }
+
+/*!
+ * @brief Set the I2C address of the sensor
+ * @param newAddr New I2C address in 8-bit format (must be one of: 0xD0, 0xD2, 0xD4, ..., 0xFE)
+ * @return true if address was set successfully, false otherwise
+ */
+bool DYP_R01CW::setAddress(uint8_t newAddr) {
+    if (_wire == nullptr) {
+        return false;
+    }
+    
+    // Validate the new address
+    // Valid addresses are 0xD0, 0xD2, ..., 0xEE, 0xF8, 0xFA, 0xFC, 0xFE (20 addresses)
+    // These are even addresses from 0xD0 to 0xFE, excluding 0xF0-0xF6
+    if (newAddr < 0xD0 || newAddr > 0xFE || (newAddr & 0x01) != 0) {
+        return false;
+    }
+    // Exclude reserved addresses 0xF0, 0xF2, 0xF4, 0xF6
+    if (newAddr >= 0xF0 && newAddr <= 0xF6) {
+        return false;
+    }
+    
+    // Write the new address to the slave address register
+    _wire->beginTransmission(_addr);
+    _wire->write(DYP_R01CW_SLAVE_ADDR_REG);
+    _wire->write(newAddr);
+    uint8_t error = _wire->endTransmission();
+    
+    if (error != 0) {
+        return false;
+    }
+    
+    // Address change successful: update internal 7-bit address
+    _addr = newAddr >> 1;
+    
+    return true;
+}
