@@ -71,11 +71,15 @@ void setup() {
   
   // Create a sensor object using the broadcast address
   // The broadcast address allows communication with any sensor regardless of its current address
-  DYP_R01CW broadcastSensor(BROADCAST_ADDR << 1); // Convert 7-bit to 8-bit format for constructor
+  // Note: For 0x00, left shift doesn't change the value, but we apply it for API consistency
+  // since the constructor expects 8-bit format
+  DYP_R01CW broadcastSensor(BROADCAST_ADDR << 1);
   
-  // Initialize the sensor object (sets up the Wire interface)
-  // Note: begin() will likely return false since the broadcast address won't respond to 
-  // read requests, but it initializes the Wire interface which is all we need for setAddress()
+  // Initialize the sensor object
+  // Note: begin() internally calls Wire.begin() to initialize I2C communication,
+  // then tries to verify sensor connectivity. The verification will likely fail since 
+  // the broadcast address doesn't respond to read requests, but the I2C initialization
+  // still succeeds, which is all we need for setAddress() to work.
   bool beginResult = broadcastSensor.begin();
   Serial.print("INFO: Broadcast sensor begin() ");
   Serial.println(beginResult ? "succeeded (unexpected but OK)" : "failed (expected - broadcast address doesn't respond to reads)");
