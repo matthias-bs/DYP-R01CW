@@ -166,7 +166,7 @@ uint16_t DYP_R01CW::readSoftwareVersion() {
 
 /*!
  * @brief Set the I2C address of the sensor
- * @param newAddr New I2C address (must be one of: 0xD0, 0xD2, 0xD4, ..., 0xFE)
+ * @param newAddr New I2C address in 8-bit format (must be one of: 0xD0, 0xD2, 0xD4, ..., 0xFE)
  * @return true if address was set successfully, false otherwise
  */
 bool DYP_R01CW::setAddress(uint8_t newAddr) {

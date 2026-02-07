@@ -155,19 +155,21 @@ bool setAddress(uint8_t newAddr)
 
 Sets the I2C address of the sensor by writing to the slave address register (0x05).
 
-- `newAddr`: New I2C address - must be one of the 20 supported addresses: 0xD0, 0xD2, 0xD4, ..., 0xFE (even addresses only)
+- `newAddr`: New I2C address in 8-bit format - must be one of the 20 supported addresses: 0xD0, 0xD2, 0xD4, ..., 0xFE (even addresses only)
 - Returns: `true` if address was set successfully, `false` otherwise
-- **Note:** The new address takes effect immediately. After calling this method, you must create a new sensor object with the new address to communicate with the sensor.
-- **Note:** Default address is 0xE0
+- **Important:** The `newAddr` parameter uses 8-bit I2C address format (includes R/W bit), but when creating a sensor object, use 7-bit format (shift right by 1)
+- **Note:** The sensor's default 8-bit address is 0xE0, which corresponds to 7-bit address 0x70
+- **Note:** The new address takes effect immediately. After calling this method, you must create a new sensor object with the corresponding 7-bit address
 
 **Example:**
 
 ```cpp
-// Change sensor address from default (0x50) to 0xE0
-if (sensor.setAddress(0xE0)) {
+// Change sensor address from 0x50 (7-bit) to 0xD4 (8-bit)
+// Note: 0xD4 is the 8-bit address format, 7-bit equivalent is 0x6A
+if (sensor.setAddress(0xD4)) {
   Serial.println("Address changed successfully!");
-  // Now create a new sensor object with the new address
-  DYP_R01CW newSensor(0xE0);
+  // Create new sensor object with 7-bit address (0xD4 >> 1 = 0x6A)
+  DYP_R01CW newSensor(0x6A);
   newSensor.begin();
 } else {
   Serial.println("Failed to change address");

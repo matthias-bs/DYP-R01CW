@@ -4,11 +4,14 @@
  * @brief Example demonstrating how to change the I2C address of DYP-R01CW sensor
  * 
  * This sketch shows how to change the I2C address of the DYP-R01CW laser ranging
- * sensor. The sensor supports 20 different addresses from 0xD0 to 0xFE (even
- * addresses only). The default address is 0xE0.
+ * sensor. The sensor supports 20 different 8-bit addresses from 0xD0 to 0xFE (even
+ * addresses only). The sensor's default 8-bit address is 0xE0 (7-bit: 0x70).
+ * 
+ * IMPORTANT: The setAddress() method uses 8-bit address format (includes R/W bit),
+ * but the library constructor uses 7-bit format. To convert: 7-bit = 8-bit >> 1
  * 
  * IMPORTANT: After changing the address, you must create a new sensor object
- * with the new address to communicate with the sensor.
+ * with the new 7-bit address to communicate with the sensor.
  * 
  * @section hardware Hardware Requirements
  * 
@@ -32,11 +35,14 @@
 #include <Wire.h>
 #include <DYP_R01CW.h>
 
-// Current I2C address (change this to match your sensor's current address)
+// Current I2C address (change this to match your sensor's current 7-bit address)
+// Note: The library uses 7-bit addresses. Default is 0x50.
 #define CURRENT_ADDRESS 0x50
 
-// New I2C address to set (must be one of: 0xD0, 0xD2, 0xD4, ..., 0xFE)
-#define NEW_ADDRESS 0xE0
+// New I2C address to set (must be in 8-bit format: 0xD0, 0xD2, 0xD4, ..., 0xFE)
+// This example changes to 0xD4 (8-bit), which is 0x6A in 7-bit format
+#define NEW_ADDRESS_8BIT 0xD4
+#define NEW_ADDRESS_7BIT (NEW_ADDRESS_8BIT >> 1)  // Convert to 7-bit: 0x6A
 
 void setup() {
   // Initialize serial communication
@@ -81,21 +87,26 @@ void setup() {
   
   // Change the address
   Serial.print("Changing sensor address to 0x");
-  Serial.print(NEW_ADDRESS, HEX);
-  Serial.println("...");
+  Serial.print(NEW_ADDRESS_8BIT, HEX);
+  Serial.print(" (8-bit format, 7-bit: 0x");
+  Serial.print(NEW_ADDRESS_7BIT, HEX);
+  Serial.println(")...");
   
-  if (sensor.setAddress(NEW_ADDRESS)) {
+  if (sensor.setAddress(NEW_ADDRESS_8BIT)) {
     Serial.println("SUCCESS: Address changed successfully!");
     Serial.println();
-    Serial.print("Sensor is now at address 0x");
-    Serial.println(NEW_ADDRESS, HEX);
+    Serial.print("Sensor is now at 8-bit address 0x");
+    Serial.print(NEW_ADDRESS_8BIT, HEX);
+    Serial.print(" (7-bit: 0x");
+    Serial.print(NEW_ADDRESS_7BIT, HEX);
+    Serial.println(")");
     Serial.println();
     
-    // Verify by creating a new sensor object with the new address
+    // Verify by creating a new sensor object with the new 7-bit address
     Serial.println("Verifying new address...");
     delay(100); // Short delay to ensure address change is complete
     
-    DYP_R01CW newSensor(NEW_ADDRESS);
+    DYP_R01CW newSensor(NEW_ADDRESS_7BIT);
     if (newSensor.begin()) {
       Serial.println("Verification successful! Sensor responds at new address.");
       Serial.println();

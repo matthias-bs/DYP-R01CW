@@ -73,13 +73,14 @@ public:
     
     /*!
      * @brief Set the I2C address of the sensor
-     * @param newAddr New I2C address (must be one of: 0xD0, 0xD2, 0xD4, ..., 0xFE)
+     * @param newAddr New I2C address in 8-bit format (must be one of: 0xD0, 0xD2, 0xD4, ..., 0xFE)
      * @return true if address was set successfully, false otherwise
      * @note The new address takes effect immediately. After calling this method,
-     *       you must create a new sensor object with the new address to communicate
-     *       with the sensor.
-     * @note Only even addresses from 0xD0 to 0xFE are valid (20 addresses total)
-     * @note Default address is 0xE0
+     *       you must create a new sensor object with the corresponding 7-bit address
+     *       to communicate with the sensor.
+     * @note Only even 8-bit addresses from 0xD0 to 0xFE are valid (20 addresses total)
+     * @note The sensor's default 8-bit address is 0xE0 (7-bit: 0x70)
+     * @note To convert: 7-bit address = 8-bit address >> 1, or 8-bit address = 7-bit address << 1
      */
     bool setAddress(uint8_t newAddr);
 
