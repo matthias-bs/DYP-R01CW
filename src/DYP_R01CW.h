@@ -23,9 +23,8 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-// Default I2C address for DYP-R01CW sensor (7-bit format)
-// Sensor's default 8-bit address is 0xE0, which equals 0x70 in 7-bit format
-#define DYP_R01CW_DEFAULT_ADDR 0x70
+// Default I2C address for DYP-R01CW sensor (8-bit format)
+#define DYP_R01CW_DEFAULT_ADDR 0xE8
 
 // Sensor registers
 #define DYP_R01CW_VERSION_REG 0x00
@@ -43,7 +42,7 @@ class DYP_R01CW {
 public:
     /*!
      * @brief Constructor for DYP_R01CW
-     * @param addr I2C address of the sensor (default: 0x50)
+     * @param addr I2C address of the sensor in 8-bit format (default: 0xE8)
      */
     DYP_R01CW(uint8_t addr = DYP_R01CW_DEFAULT_ADDR);
     
@@ -81,7 +80,7 @@ public:
      * @note Supported 8-bit addresses (20 total): 0xD0, 0xD2, 0xD4, 0xD6, 0xD8, 0xDA,
      *       0xDC, 0xDE, 0xE0, 0xE2, 0xE4, 0xE6, 0xE8, 0xEA, 0xEC, 0xEE, 0xF8, 0xFA,
      *       0xFC, 0xFE (even addresses from 0xD0-0xFE, excluding 0xF0-0xF6)
-     * @note The sensor's default 8-bit address is 0xE0 (7-bit: 0x70)
+     * @note The sensor's default 8-bit address is 0xE8 (7-bit: 0x74)
      * @note To convert: 7-bit address = 8-bit address >> 1, or 8-bit address = 7-bit address << 1
      */
     bool setAddress(uint8_t newAddr);

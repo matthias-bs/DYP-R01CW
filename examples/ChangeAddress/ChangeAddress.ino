@@ -8,10 +8,9 @@
  * 0xD8, 0xDA, 0xDC, 0xDE, 0xE0, 0xE2, 0xE4, 0xE6, 0xE8, 0xEA, 0xEC, 0xEE, 0xF8,
  * 0xFA, 0xFC, 0xFE (even addresses from 0xD0-0xFE, excluding 0xF0-0xF6).
  * 
- * The sensor's default 8-bit address is 0xE0 (7-bit: 0x70).
+ * The sensor's default 8-bit address is 0xE8.
  * 
- * IMPORTANT: The setAddress() method uses 8-bit address format (includes R/W bit),
- * but the library constructor uses 7-bit format. To convert: 7-bit = 8-bit >> 1
+ * IMPORTANT: The constructor and setAddress() methods now both use 8-bit address format.
  * 
  * IMPORTANT: After calling setAddress(), the sensor object automatically updates
  * to use the new address. You can continue using the same object.
@@ -38,11 +37,11 @@
 #include <Wire.h>
 #include <DYP_R01CW.h>
 
-// Use default I2C address (0x70 in 7-bit format, which is 0xE0 in 8-bit format)
+// Use default I2C address (0xE8 in 8-bit format)
 // If your sensor has been configured to a different address, change this value
 
 // New I2C address to set (must be one of the supported 8-bit addresses)
-// This example changes to 0xD4 (8-bit), which is 0x6A in 7-bit format
+// This example changes to 0xD4 (8-bit)
 #define NEW_ADDRESS_8BIT 0xD4
 
 void setup() {
@@ -56,17 +55,17 @@ void setup() {
   Serial.println("========================================================");
   Serial.println();
   
-  // Create sensor object with default address (0x70 = 0xE0 in 8-bit)
+  // Create sensor object with default address (0xE8 in 8-bit format)
   DYP_R01CW sensor;
   
   // Initialize the sensor
-  Serial.println("Initializing sensor at default address 0x70 (0xE0 in 8-bit)...");
+  Serial.println("Initializing sensor at default address 0xE8 (8-bit)...");
   
   if (!sensor.begin()) {
     Serial.println("ERROR: Could not find DYP-R01CW sensor!");
     Serial.println("Please check:");
     Serial.println("  1. Wiring connections");
-    Serial.println("  2. Sensor is at the default address (0x70/0xE0)");
+    Serial.println("  2. Sensor is at the default address (0xE8)");
     Serial.println("  3. Sensor is powered on with 3.3-5.0V");
     while (1) {
       delay(1000);
@@ -95,9 +94,7 @@ void setup() {
   // Change the address
   Serial.print("Changing sensor address to 0x");
   Serial.print(NEW_ADDRESS_8BIT, HEX);
-  Serial.print(" (8-bit format, 7-bit: 0x");
-  Serial.print(NEW_ADDRESS_8BIT >> 1, HEX);
-  Serial.println(")...");
+  Serial.println(" (8-bit format)...");
   
   if (sensor.setAddress(NEW_ADDRESS_8BIT)) {
     Serial.println("SUCCESS: Address changed successfully!");

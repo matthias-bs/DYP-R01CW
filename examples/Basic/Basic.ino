@@ -28,7 +28,7 @@
 #include <Wire.h>
 #include <DYP_R01CW.h>
 
-// Create sensor object with default I2C address (0x70, which is 0xE0 in 8-bit format)
+// Create sensor object with default I2C address (0xE8 in 8-bit format)
 DYP_R01CW sensor;
 
 void setup() {

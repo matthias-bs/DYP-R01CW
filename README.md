@@ -61,7 +61,7 @@ Connect the DYP-R01CW sensor to your Arduino board:
 #include <Wire.h>
 #include <DYP_R01CW.h>
 
-// Create sensor object with default I2C address (0x70, which is 0xE0 in 8-bit format)
+// Create sensor object with default I2C address (0xE8 in 8-bit format)
 DYP_R01CW sensor;
 
 void setup() {
@@ -102,7 +102,7 @@ DYP_R01CW(uint8_t addr = DYP_R01CW_DEFAULT_ADDR)
 
 Creates a new DYP_R01CW sensor object.
 
-- `addr`: I2C address of the sensor (default: 0xE0)
+- `addr`: I2C address of the sensor in 8-bit format (default: 0xE8)
 
 ### Methods
 
@@ -160,14 +160,14 @@ Sets the I2C address of the sensor by writing to the slave address register (0x0
   - Even addresses from 0xD0-0xFE, excluding reserved range 0xF0-0xF6
 - Returns: `true` if address was set successfully, `false` otherwise
 - **Important:** The `newAddr` parameter uses 8-bit I2C address format (includes R/W bit)
-- **Note:** The sensor's default 8-bit address is 0xE0 (7-bit: 0x70), which is now the library default
+- **Note:** The sensor's default 8-bit address is 0xE8
 - **Note:** The new address takes effect immediately and the object's internal address is updated automatically. You can continue using the same sensor object without creating a new one.
 
 **Example:**
 
 ```cpp
-// Change sensor address from default 0x70 (7-bit) to 0xD4 (8-bit = 0x6A in 7-bit)
-DYP_R01CW sensor;  // Uses default address 0x70
+// Change sensor address from default 0xE8 (8-bit) to 0xD4 (8-bit)
+DYP_R01CW sensor;  // Uses default address 0xE8
 sensor.begin();
 
 if (sensor.setAddress(0xD4)) {

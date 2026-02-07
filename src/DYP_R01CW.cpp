@@ -16,10 +16,11 @@
 
 /*!
  * @brief Constructor
- * @param addr I2C address of the sensor
+ * @param addr I2C address of the sensor in 8-bit format
  */
 DYP_R01CW::DYP_R01CW(uint8_t addr) {
-    _addr = addr;
+    // Convert 8-bit address to 7-bit format for Wire library
+    _addr = addr >> 1;
     _wire = nullptr;
 }
 
