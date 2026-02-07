@@ -35,6 +35,8 @@
 
 // Commands
 #define DYP_R01CW_MEASURE_COMMAND 0xB0
+#define DYP_R01CW_RESTART_COMMAND_1 0x5A
+#define DYP_R01CW_RESTART_COMMAND_2 0xA5
 
 /*!
  * @brief DYP_R01CW class for interfacing with the laser ranging sensor
@@ -97,6 +99,13 @@ public:
      * @return Current offset in millimeters
      */
     int16_t getDistanceOffset();
+
+    /*!
+     * @brief Restart the sensor
+     * @return true if restart command was sent successfully, false otherwise
+     * @note Sends restart command sequence (DYP_R01CW_RESTART_COMMAND_1, DYP_R01CW_RESTART_COMMAND_2) to the command register
+     */
+    bool restart();
 
 private:
     uint8_t _addr;         ///< I2C address of the sensor

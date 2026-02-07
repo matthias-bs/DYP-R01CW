@@ -19,6 +19,7 @@ readSoftwareVersion	KEYWORD2
 setAddress	KEYWORD2
 setDistanceOffset	KEYWORD2
 getDistanceOffset	KEYWORD2
+restart	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

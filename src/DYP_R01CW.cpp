@@ -217,3 +217,22 @@ void DYP_R01CW::setDistanceOffset(int16_t offset) {
 int16_t DYP_R01CW::getDistanceOffset() {
     return _distanceOffset;
 }
+
+/*!
+ * @brief Restart the sensor
+ * @return true if restart command was sent successfully, false otherwise
+ */
+bool DYP_R01CW::restart() {
+    if (_wire == nullptr) {
+        return false;
+    }
+    
+    // Send restart command sequence to command register
+    _wire->beginTransmission(_addr);
+    _wire->write(DYP_R01CW_COMMAND_REG);
+    _wire->write(DYP_R01CW_RESTART_COMMAND_1);
+    _wire->write(DYP_R01CW_RESTART_COMMAND_2);
+    uint8_t error = _wire->endTransmission();
+    
+    return (error == 0);
+}
