@@ -97,7 +97,8 @@ jobs:
           for example in $(find $PWD/examples -name '*.ino' | sort); do
             # check whether to skip this sketch
             skip=false
-            if [[ ${example} =~ ${{ steps.prep.outputs.skip-pattern || '^$' }} ]]; then
+            skip_pattern="${{ steps.prep.outputs.skip-pattern != '' && steps.prep.outputs.skip-pattern || '^$' }}"
+            if [[ ${example} =~ $skip_pattern ]]; then
               skip=true
             fi
 
