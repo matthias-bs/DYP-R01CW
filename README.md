@@ -1,6 +1,6 @@
 # DYP-R01CW
 [![CI](https://github.com/matthias-bs/DYP-R01CW/actions/workflows/CI.yml/badge.svg)](https://github.com/matthias-bs/BDYP-R01CW/actions/workflows/CI.yml)
-[![GitHub release](https://img.shields.io/github/release/matthias-bs/DYP-R01CW?maxAge=3600)](https://github.com/matthias-bs/BresserWeatherSensorReceiver/releases)
+[![GitHub release](https://img.shields.io/github/release/matthias-bs/DYP-R01CW?maxAge=3600)](https://github.com/matthias-bs/DYP-R01CW/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/matthias-bs/DYP-R01CW/blob/main/LICENSE)
 
 DYP-R01CW / DFRobot SEN0590 Laser Ranging Sensor Library for Arduino
