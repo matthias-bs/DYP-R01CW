@@ -69,7 +69,7 @@ lib_deps =
 
 ### Arduino Library Manager (Coming Soon)
 
-This library will be submitted to the Arduino Library Manager for even easier installation. Once approved, you'll be able to install it directly from the Arduino IDE via **Tools → Manage Libraries** by searching for "DYP-R01CW".
+This library will be submitted to the Arduino Library Manager for even easier installation. Once approved, you'll be able to install it directly from the Arduino IDE via **Sketch → Include Library → Manage Libraries** by searching for "DYP-R01CW".
 
 ## Hardware Specifications
 
