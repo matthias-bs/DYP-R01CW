@@ -38,23 +38,13 @@ bool DYP_R01CW::begin(TwoWire *wire) {
         _wire->begin();
     }
     
-    // Check if sensor is connected by attempting to read from data register
-    _wire->beginTransmission(_addr);
-    _wire->write(DYP_R01CW_DATA_REG);
-    uint8_t error = _wire->endTransmission();
+    // Check if sensor is responding by reading the software version
+    uint16_t version = readSoftwareVersion();
     
-    if (error != 0) {
+    // Version of 0 indicates a communication error
+    if (version == 0) {
         return false;
     }
-    
-    // Try to read a byte to verify sensor is responding
-    uint8_t bytesReceived = _wire->requestFrom(_addr, (uint8_t)1);
-    if (bytesReceived != 1) {
-        return false;
-    }
-    
-    // Read and discard the byte
-    _wire->read();
     
     return true;
 }
