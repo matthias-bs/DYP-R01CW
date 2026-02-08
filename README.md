@@ -17,14 +17,46 @@ An Arduino library for interfacing with the DYP-R01CW (DFRobot SEN0590) laser ra
 - Configurable I2C address support
 - Compatible with all Arduino boards that support the Wire library
 
+## Quick Start
+
+1. **Install the library** (see Installation section below)
+2. **Connect the sensor** to your Arduino via I2C (SDA, SCL, VCC, GND)
+3. **Open the example**: In Arduino IDE, go to **File → Examples → DYP-R01CW → Basic**
+4. **Upload and run** the example sketch
+5. **Open Serial Monitor** (115200 baud) to see distance measurements
+
 ## Installation
 
-### Arduino IDE
+This library is fully compatible with the Arduino Library specification and can be easily added to your Arduino projects.
 
-1. Download this repository as a ZIP file
-2. In the Arduino IDE, go to Sketch → Include Library → Add .ZIP Library
+### Method 1: Arduino IDE - ZIP Library (Recommended)
+
+1. Download this repository as a ZIP file:
+   - Click the green "Code" button on GitHub
+   - Select "Download ZIP"
+2. In the Arduino IDE, go to **Sketch → Include Library → Add .ZIP Library**
 3. Select the downloaded ZIP file
 4. The library will be installed and ready to use
+5. Restart the Arduino IDE to see the library in **File → Examples**
+
+### Method 2: Manual Installation
+
+1. Download this repository as a ZIP file and extract it
+2. Rename the extracted folder to `DYP-R01CW` (if it has a different name)
+3. Move the `DYP-R01CW` folder to your Arduino libraries directory:
+   - **Windows:** `Documents\Arduino\libraries\`
+   - **macOS:** `~/Documents/Arduino/libraries/`
+   - **Linux:** `~/Arduino/libraries/`
+4. Restart the Arduino IDE
+
+### Method 3: Git Clone
+
+```bash
+cd ~/Arduino/libraries/
+git clone https://github.com/matthias-bs/DYP-R01CW.git
+```
+
+Then restart the Arduino IDE.
 
 ### PlatformIO
 
@@ -34,6 +66,10 @@ Add the following to your `platformio.ini`:
 lib_deps =
     https://github.com/matthias-bs/DYP-R01CW
 ```
+
+### Arduino Library Manager (Coming Soon)
+
+This library will be submitted to the Arduino Library Manager for even easier installation. Once approved, you'll be able to install it directly from the Arduino IDE via **Tools → Manage Libraries** by searching for "DYP-R01CW".
 
 ## Hardware Specifications
 
@@ -239,6 +275,25 @@ Serial.println(" mm");
 - **[DYP-R01CW Product Page](https://www.dypcn.com/small-size-waterproof-laser-sensor-dyp-r01-product/)** - Official product page from DYP with technical specifications and product details
 - **[DFRobot SEN0590 Wiki](https://wiki.dfrobot.com/Laser_Ranging_Sensor_4m_SKU_SEN0590)** - DFRobot's wiki documentation for the SEN0590 laser ranging sensor (compatible module)
 - **[ESPHome Integration](https://github.com/sredfern/sen0590_esphome)** - ESPHome custom component for the SEN0590/DYP-R01CW sensor by sredfern
+
+## For Library Maintainers
+
+### Submitting to Arduino Library Manager
+
+This library follows the [Arduino Library Specification 1.5](https://arduino.github.io/arduino-cli/latest/library-specification/) and is ready to be submitted to the Arduino Library Manager. To submit:
+
+1. Ensure the library is hosted on a public GitHub repository ✅
+2. Create a release tag (format: `vX.Y.Z`, e.g., `v0.1.0`) ✅
+3. Submit the repository URL to the [Arduino Library Manager](https://github.com/arduino/library-registry) by creating an issue or pull request
+4. Follow the [submission guidelines](https://github.com/arduino/library-registry/blob/main/FAQ.md#how-can-i-add-my-library-to-library-manager)
+
+**Prerequisites for submission:**
+- ✅ Valid `library.properties` file
+- ✅ Source files in `src/` directory
+- ✅ Examples in `examples/` directory (each example in its own folder)
+- ✅ `keywords.txt` for syntax highlighting
+- ✅ Open source license (MIT)
+- ✅ Version tag following semantic versioning
 
 ## License
 
