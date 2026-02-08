@@ -149,6 +149,7 @@ void setup() {
     Serial.println("WARNING: All distance readings failed after restart");
   } else {
     Serial.println("The sensor has been restarted and is functioning normally.");
+  }
 }
 
 void loop() {
