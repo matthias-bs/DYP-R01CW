@@ -1,28 +1,28 @@
 /*!
  * @file RestoreAddress.ino
- * 
+ *
  * @brief Example demonstrating how to restore the sensor address to default using broadcast
- * 
+ *
  * This sketch shows how to restore the I2C address of the DYP-R01CW laser ranging
  * sensor back to the default address (0xE8) using the I2C broadcast/general call address.
- * 
+ *
  * This is particularly useful when:
  * - You don't know what address the sensor is currently configured to
  * - You want to reset a sensor to factory default address
  * - You have changed the address and want to restore it
- * 
+ *
  * The broadcast address (0x00 in I2C) allows communication with all devices on the
  * I2C bus regardless of their configured address. By using the broadcast address,
  * we can restore any sensor to the default address without needing to know its
  * current address.
- * 
+ *
  * The sensor's default 8-bit address is 0xE8.
- * 
+ *
  * IMPORTANT: This uses the I2C broadcast address (0x00) to communicate with the
  * sensor regardless of its current address setting.
- * 
+ *
  * @section hardware Hardware Requirements
- * 
+ *
  * - Arduino board (Uno, Mega, ESP32, etc.)
  * - DYP-R01CW / DFRobot SEN0590 laser ranging sensor
  * - I2C connection:
@@ -30,13 +30,13 @@
  *   - SCL to Arduino SCL pin
  *   - VCC to supply voltage (3.3...5.0V)
  *   - GND to GND
- * 
+ *
  * @section author Author
- * 
+ *
  * Written by Matthias Prinke
- * 
+ *
  * @section license License
- * 
+ *
  * MIT License
  */
 
@@ -50,88 +50,105 @@
 // Default address to restore to (8-bit format)
 #define DEFAULT_ADDRESS_8BIT 0xE8
 
-void setup() {
+void setup()
+{
   // Initialize serial communication
   Serial.begin(115200);
-  while (!Serial) {
+#if defined(ARDUINO_ARCH_ESP32) || defined(ARDUINO_ARCH_ESP8266)
+  // Wait a moment to allow the serial monitor to connect before printing
+  delay(2000);
+#else
+  while (!Serial)
+  {
     ; // Wait for serial port to connect (needed for native USB)
   }
-  
+#endif
+
   Serial.println("DYP-R01CW Laser Ranging Sensor - Restore Address Example");
   Serial.println("=========================================================");
   Serial.println();
-  
+
   Serial.println("This example will restore the sensor to its default address (0xE8)");
   Serial.println("using the I2C broadcast address, regardless of current address.");
   Serial.println();
-  
+
   Serial.println("Attempting to restore sensor address to default (0xE8)...");
   Serial.println("Using broadcast address (0x00) - works with any current address.");
   Serial.println();
-  
+
   // Create a sensor object using the broadcast address
   // The broadcast address allows communication with any sensor regardless of its current address
   // Note: For 0x00, left shift doesn't change the value, but we apply it for API consistency
   // since the constructor expects 8-bit format
   DYP_R01CW broadcastSensor(BROADCAST_ADDR << 1);
-  
+
   // Initialize the sensor object
   // Note: begin() internally calls Wire.begin() to initialize I2C communication,
-  // then tries to verify sensor connectivity. The verification will likely fail since 
+  // then tries to verify sensor connectivity. The verification will likely fail since
   // the broadcast address doesn't respond to read requests, but the I2C initialization
   // still succeeds, which is all we need for setAddress() to work.
   bool beginResult = broadcastSensor.begin();
   Serial.print("INFO: Broadcast sensor begin() ");
   Serial.println(beginResult ? "succeeded (unexpected but OK)" : "failed (expected - broadcast address doesn't respond to reads)");
   Serial.println();
-  
+
   // Use the DYP_R01CW setAddress method to restore the sensor to default address
   // This sends the address change command via the broadcast address
   // This works regardless of the begin() result above
-  if (broadcastSensor.setAddress(DEFAULT_ADDRESS_8BIT)) {
+  if (broadcastSensor.setAddress(DEFAULT_ADDRESS_8BIT))
+  {
     Serial.println("SUCCESS: Address restore command sent via broadcast address!");
     Serial.println();
-  } else {
+  }
+  else
+  {
     Serial.println("WARNING: setAddress() returned false.");
     Serial.println("The sensor may still have been restored. Continuing verification...");
     Serial.println();
   }
-  
-  // Wait for sensor to process the address change
-  delay(100);
-  
+
+  // Wait for sensor to process the address change (experimentally determined, not documented by manufacturer)
+  delay(800);
+
   // Now try to communicate with the sensor at the default address
   Serial.println("Verifying sensor is now at default address (0xE8)...");
-  
+
   DYP_R01CW sensor(DEFAULT_ADDRESS_8BIT);
-  
-  if (sensor.begin()) {
+
+  if (sensor.begin())
+  {
     Serial.println("SUCCESS: Sensor found at default address 0xE8!");
     Serial.println();
-    
+
     // Read software version to confirm communication
     uint16_t version = sensor.readSoftwareVersion();
-    if (version != 0) {
+    if (version != 0)
+    {
       Serial.print("Software Version: 0x");
       Serial.println(version, HEX);
     }
     Serial.println();
-    
+
     // Test reading distance
     Serial.println("Testing distance measurement:");
     int16_t distance = sensor.readDistance();
-    if (distance >= 0) {
+    if (distance >= 0)
+    {
       Serial.print("Distance: ");
       Serial.print(distance);
       Serial.println(" mm");
-    } else {
+    }
+    else
+    {
       Serial.println("Could not read distance (this is normal if nothing is in range)");
     }
-    
+
     Serial.println();
     Serial.println("Address restoration complete!");
     Serial.println("The sensor is now configured with the default address 0xE8.");
-  } else {
+  }
+  else
+  {
     Serial.println("ERROR: Could not find sensor at default address 0xE8!");
     Serial.println();
     Serial.println("Possible reasons:");
@@ -146,7 +163,8 @@ void setup() {
   }
 }
 
-void loop() {
+void loop()
+{
   // Nothing to do in loop
   delay(1000);
 }
