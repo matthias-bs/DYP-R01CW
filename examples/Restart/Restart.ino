@@ -38,8 +38,9 @@
 // Create sensor object with default I2C address (0xE8 in 8-bit format)
 DYP_R01CW sensor;
 
-// Delay after restarting sensor (in milliseconds)
-#define SENSOR_RESTART_DELAY_MS 800
+// Delay after restarting sensor (in milliseconds) -
+// experimentally determined to be sufficient for the sensor to restart and be ready for communication
+#define SENSOR_RESTART_DELAY_MS 1200
 
 void setup() {
   // Initialize serial communication
