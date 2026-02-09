@@ -19,7 +19,7 @@
  * - I2C connection:
  *   - SDA to GPIO 25
  *   - SCL to GPIO 26
- *   - VCC to 5V (or 3.3V depending on sensor version)
+ *   - VCC to supply voltage (3.3...5.0V)
  *   - GND to GND
  * 
  * @section notes Notes
