@@ -133,7 +133,9 @@ void setup() {
   // Initialize the sensor (pass &Wire to use the configured Wire instance)
   if (!sensor.begin(&Wire)) {
     Serial.println("ERROR: Could not find sensor!");
-    while (1);
+    while (1) {
+      delay(1000);  // Prevent watchdog issues
+    }
   }
   
   Serial.println("Sensor initialized!");
