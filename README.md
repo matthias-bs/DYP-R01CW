@@ -106,7 +106,7 @@ void loop() {
 
 ### Custom I2C Pins Example
 
-For ESP32/ESP8266 boards, you can use custom GPIO pins for I2C communication and set a custom datarate:
+For ESP32/ESP8266 boards, you can use custom GPIO pins for I2C communication and set a custom clock frequency:
 
 ```cpp
 #include <Wire.h>
@@ -116,8 +116,8 @@ For ESP32/ESP8266 boards, you can use custom GPIO pins for I2C communication and
 #define CUSTOM_SDA_PIN 25
 #define CUSTOM_SCL_PIN 26
 
-// Custom I2C datarate (10000 bits/s = 10 kbit/s)
-#define CUSTOM_I2C_DATARATE 10000
+// Custom I2C clock frequency (10000 Hz = 10 kHz)
+#define CUSTOM_I2C_CLOCK_FREQ 10000
 
 DYP_R01CW sensor;
 
@@ -127,8 +127,8 @@ void setup() {
   // Initialize I2C with custom pins (ESP32/ESP8266 specific)
   Wire.begin(CUSTOM_SDA_PIN, CUSTOM_SCL_PIN);
   
-  // Set custom I2C clock speed
-  Wire.setClock(CUSTOM_I2C_DATARATE);
+  // Set custom I2C clock frequency
+  Wire.setClock(CUSTOM_I2C_CLOCK_FREQ);
   
   // Initialize the sensor (pass &Wire to use the configured Wire instance)
   if (!sensor.begin(&Wire)) {

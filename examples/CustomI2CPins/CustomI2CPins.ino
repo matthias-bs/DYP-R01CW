@@ -1,16 +1,16 @@
 /*!
  * @file CustomI2CPins.ino
  * 
- * @brief Example for DYP-R01CW laser ranging sensor with custom I2C pins and datarate
+ * @brief Example for DYP-R01CW laser ranging sensor with custom I2C pins and clock frequency
  * 
  * This sketch demonstrates how to use the DYP-R01CW library with custom I2C pins
- * and a custom I2C datarate. This is particularly useful for ESP32/ESP8266 boards
+ * and a custom I2C clock frequency. This is particularly useful for ESP32/ESP8266 boards
  * where you may want to use different GPIO pins for I2C communication.
  * 
  * Custom Configuration:
  * - SDA Pin: 25
  * - SCL Pin: 26
- * - I2C Datarate: 10000 bits/s (10 kbit/s)
+ * - I2C Clock Frequency: 10000 Hz (10 kHz)
  * 
  * @section hardware Hardware Requirements
  * 
@@ -27,7 +27,7 @@
  * - This example uses custom I2C pins which is supported on ESP32 and ESP8266.
  * - For other Arduino boards (e.g., Uno, Mega), custom pins may not be supported,
  *   and you should use the default hardware I2C pins.
- * - The custom datarate of 10000 bits/s is lower than the typical 100000 bits/s,
+ * - The custom clock frequency of 10000 Hz (10 kHz) is lower than the typical 100000 Hz (100 kHz),
  *   which can be useful for longer cable runs or noisy environments.
  * 
  * @section author Author
@@ -46,8 +46,8 @@
 #define CUSTOM_SDA_PIN 25
 #define CUSTOM_SCL_PIN 26
 
-// Custom I2C datarate (10000 bits/s = 10 kbit/s)
-#define CUSTOM_I2C_DATARATE 10000
+// Custom I2C clock frequency (10000 Hz = 10 kHz)
+#define CUSTOM_I2C_CLOCK_FREQ 10000
 
 // Create sensor object with default I2C address (0xE8 in 8-bit format)
 DYP_R01CW sensor;
@@ -65,26 +65,26 @@ void setup() {
   Serial.println(CUSTOM_SDA_PIN);
   Serial.print("Custom SCL Pin: ");
   Serial.println(CUSTOM_SCL_PIN);
-  Serial.print("Custom I2C Datarate: ");
-  Serial.print(CUSTOM_I2C_DATARATE);
-  Serial.println(" bits/s");
+  Serial.print("Custom I2C Clock Frequency: ");
+  Serial.print(CUSTOM_I2C_CLOCK_FREQ);
+  Serial.println(" Hz");
   Serial.println();
   
 #if defined(ESP32) || defined(ESP8266)
   // Initialize I2C with custom pins (ESP32/ESP8266 specific)
   Wire.begin(CUSTOM_SDA_PIN, CUSTOM_SCL_PIN);
   
-  // Set custom I2C clock speed
-  Wire.setClock(CUSTOM_I2C_DATARATE);
+  // Set custom I2C clock frequency
+  Wire.setClock(CUSTOM_I2C_CLOCK_FREQ);
   
-  Serial.println("Custom I2C pins and datarate configured for ESP32/ESP8266");
+  Serial.println("Custom I2C pins and clock frequency configured for ESP32/ESP8266");
 #else
-  // For other boards, use default I2C pins but set custom clock speed
+  // For other boards, use default I2C pins but set custom clock frequency
   Wire.begin();
-  Wire.setClock(CUSTOM_I2C_DATARATE);
+  Wire.setClock(CUSTOM_I2C_CLOCK_FREQ);
   
   Serial.println("WARNING: Custom I2C pins are not supported on this board.");
-  Serial.println("Using default hardware I2C pins with custom datarate.");
+  Serial.println("Using default hardware I2C pins with custom clock frequency.");
 #endif
   
   Serial.println();
