@@ -27,8 +27,9 @@
  * - This example uses custom I2C pins which is supported on ESP32 and ESP8266.
  * - For other Arduino boards (e.g., Uno, Mega), custom pins may not be supported,
  *   and you should use the default hardware I2C pins.
- * - The custom clock frequency of 10000 Hz (10 kHz) is lower than the typical 100000 Hz (100 kHz),
- *   which can be useful for longer cable runs or noisy environments.
+ * - The custom clock frequency of 10000 Hz (10 kHz) is lower than the typical 100000 Hz (100 kHz).
+ * - **Note:** A reduced clock frequency can help improve reliability with long wires or in
+ *   noisy EMC (Electromagnetic Compatibility) environments by reducing signal integrity issues.
  * 
  * @section author Author
  * 
@@ -69,6 +70,9 @@ void setup() {
   Serial.print(CUSTOM_I2C_CLOCK_FREQ);
   Serial.println(" Hz");
   Serial.println();
+  Serial.println("Note: Reduced clock frequency improves reliability with long wires");
+  Serial.println("      or in noisy EMC environments.");
+  Serial.println();
   
 #if defined(ESP32) || defined(ESP8266)
   // Initialize I2C with custom pins (ESP32/ESP8266 specific)
@@ -99,7 +103,7 @@ void setup() {
     Serial.print("  SCL: GPIO ");
     Serial.println(CUSTOM_SCL_PIN);
     while (1) {
-      delay(1000);
+      delay(1000);  // Prevent watchdog issues
     }
   }
   

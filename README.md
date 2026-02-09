@@ -156,6 +156,8 @@ void loop() {
 
 **Note:** Custom I2C pins are supported on ESP32 and ESP8266. For other Arduino boards (e.g., Uno, Mega), use the default hardware I2C pins.
 
+**Tip:** A reduced clock frequency (like 10 kHz shown above) can help improve reliability when using long wires or in noisy EMC (Electromagnetic Compatibility) environments by reducing signal integrity issues.
+
 ## API Reference
 
 ### Constructor
