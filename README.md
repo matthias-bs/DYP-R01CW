@@ -19,6 +19,13 @@ An Arduino library for interfacing with the DYP-R01CW (DFRobot SEN0590) laser ra
 
 ## Installation
 
+### Arduino Library Manager
+
+1. Open the Arduino IDE
+2. Go to Sketch → Include Library → Manage Libraries (or Tools → Manage Libraries)
+3. Search for "DYP-R01CW"
+4. Click "Install"
+
 ### Arduino IDE
 
 1. Download this repository as a ZIP file
