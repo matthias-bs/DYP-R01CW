@@ -104,6 +104,58 @@ void loop() {
 }
 ```
 
+### Custom I2C Pins Example
+
+For ESP32/ESP8266 boards, you can use custom GPIO pins for I2C communication and set a custom datarate:
+
+```cpp
+#include <Wire.h>
+#include <DYP_R01CW.h>
+
+// Custom I2C pins
+#define CUSTOM_SDA_PIN 25
+#define CUSTOM_SCL_PIN 26
+
+// Custom I2C datarate (10000 bits/s = 10 kbit/s)
+#define CUSTOM_I2C_DATARATE 10000
+
+DYP_R01CW sensor;
+
+void setup() {
+  Serial.begin(115200);
+  
+  // Initialize I2C with custom pins (ESP32/ESP8266 specific)
+  Wire.begin(CUSTOM_SDA_PIN, CUSTOM_SCL_PIN);
+  
+  // Set custom I2C clock speed
+  Wire.setClock(CUSTOM_I2C_DATARATE);
+  
+  // Initialize the sensor (pass &Wire to use the configured Wire instance)
+  if (!sensor.begin(&Wire)) {
+    Serial.println("ERROR: Could not find sensor!");
+    while (1);
+  }
+  
+  Serial.println("Sensor initialized!");
+}
+
+void loop() {
+  int16_t distance = sensor.readDistance();
+  
+  if (distance >= 0) {
+    Serial.print("Distance: ");
+    Serial.print(distance);
+    Serial.println(" mm");
+  } else {
+    Serial.println("ERROR: Failed to read distance");
+  }
+  
+  delay(500);
+}
+```
+
+**Note:** Custom I2C pins are supported on ESP32 and ESP8266. For other Arduino boards (e.g., Uno, Mega), use the default hardware I2C pins.
+
 ## API Reference
 
 ### Constructor
