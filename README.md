@@ -50,7 +50,7 @@ The DYP-R01CW sensor has the following electrical specifications:
 
 | Parameter | Value | Notes |
 |-----------|-------|-------|
-| Supply Voltage | 3.3V - 5.0V | Compatible with both 3.3V and 5V logic |
+| Supply Voltage | 3.3V - 5.0V | Operates with any voltage in this range |
 | Communication Rate | 1 - 100 kbit/s | I2C bus speed |
 | Recommended Pull-up Resistors | 3 - 10 kΩ | For I2C SDA and SCL lines |
 
